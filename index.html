@@ -115,7 +115,7 @@
     .grid {
       display: grid;
       gap: 20px;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .panel {
@@ -140,6 +140,11 @@
 
     .login-box {
       background: linear-gradient(150deg, #ffffff 0%, #f8faf5 65%, #eef4e9 100%);
+      border: 1px solid rgba(111, 143, 58, 0.2);
+    }
+
+    .public-box {
+      background: linear-gradient(150deg, #ffffff 0%, #f5f8f3 65%, #e6efdd 100%);
       border: 1px solid rgba(111, 143, 58, 0.2);
     }
 
@@ -194,6 +199,18 @@
 
     button:active {
       transform: translateY(0);
+    }
+
+    .secondary-button {
+      background: #ffffff;
+      color: var(--brand-dark);
+      border: 1.5px solid rgba(78, 110, 42, 0.5);
+    }
+
+    .secondary-button:hover {
+      filter: none;
+      background: #f6faef;
+      box-shadow: 0 8px 18px rgba(78, 110, 42, 0.2);
     }
 
     .helper {
@@ -259,8 +276,20 @@
     </section>
 
     <section class="grid">
+      <article class="panel public-box">
+        <h2>Acces grand public</h2>
+        <p class="panel-subtitle">
+          Consultez la version ouverte du tableau de bord, sans code organisme.
+        </p>
+        <div class="input-group">
+          <button type="button" id="publicAccessButton" class="secondary-button">
+            Ouvrir le tableau de bord grand public
+          </button>
+        </div>
+      </article>
+
       <article class="panel login-box">
-        <h2>Acces a vos donnees</h2>
+        <h2>Acces contributeur</h2>
         <p class="panel-subtitle">
           Renseignez votre code organisme pour charger automatiquement vos donnees.
         </p>
@@ -280,6 +309,11 @@
   </section>
 
   <script>
+    const PUBLIC_EXPERIENCE_URL =
+      "https://experience.arcgis.com/experience/7689a414155746208a0b903a9889aad2";
+    const CONTRIBUTOR_EXPERIENCE_URL =
+      "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison";
+
     function showError(message) {
       document.getElementById("errorMessage").textContent = message || "";
     }
@@ -293,7 +327,13 @@
       }
     }
 
-    function loadExperience() {
+    function openExperience(url) {
+      document.getElementById("login-container").style.display = "none";
+      document.getElementById("map-container").style.display = "block";
+      document.getElementById("experienceFrame").src = url;
+    }
+
+    function loadContributorExperience() {
       const pId = document.getElementById("pIdInput").value.trim();
 
       if (!pId) {
@@ -303,20 +343,22 @@
 
       showError("");
 
-      const experienceUrl =
-        "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison";
       const dataFilter = "dataSource_424-19e02bd072b-layer-4:p_id='" + pId + "'";
-      const finalUrl = experienceUrl + "?data_filter=" + encodeURIComponent(dataFilter);
+      const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + encodeURIComponent(dataFilter);
 
-      document.getElementById("login-container").style.display = "none";
-      document.getElementById("map-container").style.display = "block";
-      document.getElementById("experienceFrame").src = finalUrl;
+      openExperience(finalUrl);
     }
 
-    document.getElementById("accessButton").addEventListener("click", loadExperience);
+    function loadPublicExperience() {
+      showError("");
+      openExperience(PUBLIC_EXPERIENCE_URL);
+    }
+
+    document.getElementById("publicAccessButton").addEventListener("click", loadPublicExperience);
+    document.getElementById("accessButton").addEventListener("click", loadContributorExperience);
     document.getElementById("pIdInput").addEventListener("keypress", function(event) {
       if (event.key === "Enter") {
-        loadExperience();
+        loadContributorExperience();
       }
     });
 
