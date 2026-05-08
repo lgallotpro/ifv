@@ -284,6 +284,15 @@
       document.getElementById("errorMessage").textContent = message || "";
     }
 
+    function prefillCodeFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const codeFromUrl = (params.get("code") || "").trim();
+
+      if (codeFromUrl) {
+        document.getElementById("pIdInput").value = codeFromUrl;
+      }
+    }
+
     function loadExperience() {
       const pId = document.getElementById("pIdInput").value.trim();
 
@@ -311,6 +320,7 @@
       }
     });
 
+    prefillCodeFromUrl();
   </script>
 </body>
 </html>
