@@ -47,7 +47,7 @@
       z-index: 20;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 16px;
       padding: 14px clamp(16px, 4vw, 40px);
       background: rgba(31, 42, 31, 0.9);
@@ -60,11 +60,6 @@
       font-weight: 700;
       letter-spacing: 0.2px;
       white-space: nowrap;
-    }
-
-    .status {
-      font-size: 0.9rem;
-      color: #dbe8cf;
     }
 
     .layout {
@@ -84,7 +79,7 @@
       padding: clamp(24px, 5vw, 48px);
       background:
         linear-gradient(115deg, rgba(34, 48, 23, 0.82) 0%, rgba(34, 48, 23, 0.56) 45%, rgba(34, 48, 23, 0.2) 100%),
-        url("https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+        url("https://i.ibb.co/1GDkgcXQ/1753967750448.png") center/cover no-repeat;
       box-shadow: var(--shadow);
     }
 
@@ -120,7 +115,7 @@
     .grid {
       display: grid;
       gap: 20px;
-      grid-template-columns: 1.1fr 1fr;
+      grid-template-columns: 1fr;
     }
 
     .panel {
@@ -141,54 +136,6 @@
       color: var(--text-secondary);
       font-size: 0.96rem;
       line-height: 1.45;
-    }
-
-    .cards {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .card {
-      border-radius: var(--radius-md);
-      padding: 14px;
-      min-height: 126px;
-      color: #f5f9f0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(17, 24, 12, 0.15) 0%, rgba(17, 24, 12, 0.6) 100%);
-      z-index: -1;
-    }
-
-    .card small {
-      font-size: 0.78rem;
-      opacity: 0.9;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    .mildiou {
-      background: url("https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=640&q=80") center/cover no-repeat;
-    }
-
-    .oidium {
-      background: url("https://images.unsplash.com/photo-1528821154947-1aa3d1b74941?auto=format&fit=crop&w=640&q=80") center/cover no-repeat;
-    }
-
-    .black-rot {
-      background: url("https://images.unsplash.com/photo-1598512752271-33f913a5af13?auto=format&fit=crop&w=640&q=80") center/cover no-repeat;
     }
 
     .login-box {
@@ -281,15 +228,11 @@
         grid-template-columns: 1fr;
       }
 
-      .cards {
-        grid-template-columns: 1fr;
-      }
     }
 
     @media (max-width: 620px) {
       .topbar {
-        flex-direction: column;
-        align-items: flex-start;
+        justify-content: flex-start;
       }
 
       .layout {
@@ -302,7 +245,6 @@
 <body>
   <header class="topbar">
     <div class="brand">Tableau de bord Epidemiosurveillance</div>
-    <div class="status">Derniere actualisation : <span id="updatedAt">--</span></div>
   </header>
 
   <main id="login-container" class="layout">
@@ -317,35 +259,14 @@
     </section>
 
     <section class="grid">
-      <article class="panel">
-        <h2>Menu rapide</h2>
-        <p class="panel-subtitle">
-          Les principaux modules d'observation sont regroupes ici pour un acces direct.
-        </p>
-        <div class="cards">
-          <div class="card mildiou">
-            Mildiou
-            <small>Risque foliaire et conditions favorables</small>
-          </div>
-          <div class="card oidium">
-            Oidium
-            <small>Suivi de contamination et progression</small>
-          </div>
-          <div class="card black-rot">
-            Black-Rot
-            <small>Zones sensibles et historique</small>
-          </div>
-        </div>
-      </article>
-
       <article class="panel login-box">
-        <h2>Acces cartographie</h2>
+        <h2>Acces a vos donnees</h2>
         <p class="panel-subtitle">
-          Renseignez votre code organisme pour charger automatiquement votre vue filtree.
+          Renseignez votre code organisme pour charger automatiquement vos donnees.
         </p>
         <div class="input-group">
           <label class="field-label" for="pIdInput">Code organisme</label>
-          <input type="text" id="pIdInput" autocomplete="off" placeholder="Ex : ORG-01234" />
+          <input type="text" id="pIdInput" autocomplete="off" />
           <button type="button" id="accessButton">Acceder au tableau interactif</button>
         </div>
         <div class="helper">Astuce : appuyez sur Entree pour valider rapidement.</div>
@@ -359,15 +280,6 @@
   </section>
 
   <script>
-    function setUpdatedAt() {
-      const now = new Date();
-      const formatter = new Intl.DateTimeFormat("fr-FR", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      });
-      document.getElementById("updatedAt").textContent = formatter.format(now);
-    }
-
     function showError(message) {
       document.getElementById("errorMessage").textContent = message || "";
     }
@@ -399,7 +311,6 @@
       }
     });
 
-    setUpdatedAt();
   </script>
 </body>
 </html>
