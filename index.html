@@ -54,12 +54,41 @@
       backdrop-filter: blur(6px);
       color: #f6f8f4;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 50px;
     }
 
     .brand {
       font-weight: 700;
       letter-spacing: 0.2px;
       white-space: nowrap;
+    }
+
+    .home-button {
+      position: absolute;
+      left: clamp(10px, 3vw, 28px);
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      padding: 8px 12px;
+      border: 1px solid rgba(219, 232, 207, 0.55);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f6f8f4;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .home-button:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(219, 232, 207, 0.8);
+    }
+
+    .home-button.visible {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .layout {
@@ -249,7 +278,7 @@
 
     @media (max-width: 620px) {
       .topbar {
-        justify-content: flex-start;
+        justify-content: center;
       }
 
       .layout {
@@ -261,6 +290,9 @@
 </head>
 <body>
   <header class="topbar">
+    <button type="button" id="homeButton" class="home-button" aria-label="Revenir a l'accueil">
+      ← Accueil
+    </button>
     <div class="brand">Tableau de bord Epidemiosurveillance</div>
   </header>
 
@@ -277,7 +309,7 @@
 
     <section class="grid">
       <article class="panel public-box">
-        <h2>Acces grand public</h2>
+        <h2>Donnees grand public</h2>
         <p class="panel-subtitle">
           Consultez la version ouverte du tableau de bord, sans code organisme.
         </p>
@@ -289,7 +321,7 @@
       </article>
 
       <article class="panel login-box">
-        <h2>Acces contributeur</h2>
+        <h2>Donnees contributeurs</h2>
         <p class="panel-subtitle">
           Renseignez votre code organisme pour charger automatiquement vos donnees.
         </p>
@@ -308,61 +340,6 @@
     <iframe id="experienceFrame" title="Tableau cartographique epidemiosurveillance"></iframe>
   </section>
 
-  <script>
-    const PUBLIC_EXPERIENCE_URL =
-      "https://experience.arcgis.com/experience/7689a414155746208a0b903a9889aad2";
-    const CONTRIBUTOR_EXPERIENCE_URL =
-      "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison";
-
-    function showError(message) {
-      document.getElementById("errorMessage").textContent = message || "";
-    }
-
-    function prefillCodeFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const codeFromUrl = (params.get("code") || "").trim();
-
-      if (codeFromUrl) {
-        document.getElementById("pIdInput").value = codeFromUrl;
-      }
-    }
-
-    function openExperience(url) {
-      document.getElementById("login-container").style.display = "none";
-      document.getElementById("map-container").style.display = "block";
-      document.getElementById("experienceFrame").src = url;
-    }
-
-    function loadContributorExperience() {
-      const pId = document.getElementById("pIdInput").value.trim();
-
-      if (!pId) {
-        showError("Veuillez entrer un code organisme valide.");
-        return;
-      }
-
-      showError("");
-
-      const dataFilter = "dataSource_424-19e02bd072b-layer-4:p_id='" + pId + "'";
-      const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + encodeURIComponent(dataFilter);
-
-      openExperience(finalUrl);
-    }
-
-    function loadPublicExperience() {
-      showError("");
-      openExperience(PUBLIC_EXPERIENCE_URL);
-    }
-
-    document.getElementById("publicAccessButton").addEventListener("click", loadPublicExperience);
-    document.getElementById("accessButton").addEventListener("click", loadContributorExperience);
-    document.getElementById("pIdInput").addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        loadContributorExperience();
-      }
-    });
-
-    prefillCodeFromUrl();
-  </script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
