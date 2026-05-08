@@ -176,7 +176,7 @@
     }
 
     .public-box {
-      background: linear-gradient(150deg, #ffffff 0%, #f5f8f3 65%, #e6efdd 100%);
+      background: #ffffff;
       border: 1px solid rgba(111, 143, 58, 0.2);
     }
 
@@ -234,15 +234,15 @@
     }
 
     .secondary-button {
-      background: #ffffff;
-      color: var(--brand-dark);
-      border: 1.5px solid rgba(78, 110, 42, 0.5);
+      border: none;
+      color: #ffffff;
+      background: linear-gradient(120deg, var(--brand) 0%, var(--brand-dark) 100%);
     }
 
     .secondary-button:hover {
-      filter: none;
-      background: #f6faef;
-      box-shadow: 0 8px 18px rgba(78, 110, 42, 0.2);
+      filter: brightness(1.04);
+      box-shadow: 0 8px 18px rgba(78, 110, 42, 0.25);
+      transform: translateY(-1px);
     }
 
     .helper {
@@ -318,7 +318,7 @@
         </p>
         <div class="input-group">
           <button type="button" id="publicAccessButton" class="secondary-button">
-            Ouvrir le tableau de bord grand public
+            Ouvrir le tableau de bord grand public &#8594;
           </button>
         </div>
       </article>
@@ -331,7 +331,7 @@
         <div class="input-group">
           <label class="field-label" for="pIdInput">Code organisme</label>
           <input type="text" id="pIdInput" autocomplete="off" />
-          <button type="button" id="accessButton">Acceder au tableau interactif</button>
+          <button type="button" id="accessButton">Acceder au tableau interactif &#8594;</button>
         </div>
         <div class="helper">Astuce : appuyez sur Entree pour valider rapidement.</div>
         <div id="errorMessage" class="error-message" role="alert" aria-live="polite"></div>
