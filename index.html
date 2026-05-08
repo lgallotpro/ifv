@@ -1,49 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirection ArcGIS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFV</title>
 
-  <script>
-    (function () {
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-      const EXPERIENCE_URL =
-        "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison";
-
-      const DEFAULT_FILTER =
-        "dataSource_424-19e02bd072b-layer-4:p_id='E002B'";
-
-      const currentUrl = new URL(window.location.href);
-
-      // Si aucun data_filter présent
-      if (!currentUrl.searchParams.has("data_filter")) {
-
-        const redirectUrl = new URL(EXPERIENCE_URL);
-
-        redirectUrl.searchParams.set(
-          "data_filter",
-          DEFAULT_FILTER
-        );
-
-        window.location.replace(redirectUrl.toString());
-
-      } else {
-
-        // Si un data_filter existe déjà, on redirige tel quel vers Experience Builder
-        const redirectUrl = new URL(EXPERIENCE_URL);
-
-        currentUrl.searchParams.forEach((value, key) => {
-          redirectUrl.searchParams.set(key, value);
-        });
-
-        window.location.replace(redirectUrl.toString());
-      }
-
-    })();
-  </script>
-
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
+
+<iframe
+  src="https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison?data_filter=dataSource_424-19e02bd072b-layer-4:p_id='E002B'">
+</iframe>
+
 </body>
 </html>
