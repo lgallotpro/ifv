@@ -4,6 +4,11 @@ const loginContainer = document.getElementById("login-container");
 const mapContainer = document.getElementById("map-container");
 const experienceFrame = document.getElementById("experienceFrame");
 const homeButton = document.getElementById("homeButton");
+const brandTitle = document.getElementById("brandTitle");
+
+const BRAND_TITLE_HOME = "Tableau de bord Épidémosurveillance";
+const BRAND_TITLE_PUBLIC = "Tableau de bord Épidémosurveillance grand public";
+const BRAND_TITLE_CONTRIBUTOR = "Tableau de bord Épidémosurveillance contributeur";
 
 function showError(message) {
   document.getElementById("errorMessage").textContent = message || "";
@@ -18,11 +23,29 @@ function prefillCodeFromUrl() {
   }
 }
 
-function openExperience(url) {
+function setBrandTitle(mode) {
+  if (!brandTitle) return;
+  if (mode === "public") {
+    brandTitle.textContent = BRAND_TITLE_PUBLIC;
+  } else if (mode === "contributor") {
+    brandTitle.textContent = BRAND_TITLE_CONTRIBUTOR;
+  } else {
+    brandTitle.textContent = BRAND_TITLE_HOME;
+  }
+}
+
+function openExperience(url, mode) {
   loginContainer.style.display = "none";
   mapContainer.style.display = "block";
   experienceFrame.src = url;
   homeButton.classList.add("visible");
+  setBrandTitle(mode);
+  experienceFrame.title =
+    mode === "public"
+      ? "Tableau de bord Épidémosurveillance grand public"
+      : mode === "contributor"
+        ? "Tableau de bord Épidémosurveillance contributeur"
+        : "Tableau cartographique Épidémosurveillance";
 }
 
 function returnToHome() {
@@ -31,6 +54,8 @@ function returnToHome() {
   loginContainer.style.display = "grid";
   experienceFrame.src = "";
   homeButton.classList.remove("visible");
+  setBrandTitle("home");
+  experienceFrame.title = "Tableau cartographique Épidémosurveillance";
 }
 
 function loadContributorExperience() {
@@ -50,7 +75,7 @@ function loadContributorExperience() {
 
   const dataFilter = "dataSource_424-19e02bd072b-layer-4:p_id='" + pId + "'";
   const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + encodeURIComponent(dataFilter);
-  openExperience(finalUrl);
+  openExperience(finalUrl, "contributor");
 }
 
 function loadPublicExperience() {
@@ -60,7 +85,7 @@ function loadPublicExperience() {
   }
 
   showError("");
-  openExperience(PUBLIC_EXPERIENCE_URL);
+  openExperience(PUBLIC_EXPERIENCE_URL, "public");
 }
 
 document.getElementById("publicAccessButton").addEventListener("click", loadPublicExperience);
