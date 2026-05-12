@@ -10,6 +10,33 @@ const BRAND_TITLE_HOME = "Tableau de bord Épidémosurveillance";
 const BRAND_TITLE_PUBLIC = "Tableau de bord Épidémosurveillance grand public";
 const BRAND_TITLE_CONTRIBUTOR = "Tableau de bord Épidémosurveillance contributeur";
 
+/**
+ * Identifiants de sources de données à filtrer (paramètre URL data_filter).
+ * @see https://doc.arcgis.com/en/experience-builder/latest/build-apps/url-parameters.htm
+ * Plusieurs filtres : "ds1:clause1,ds2:clause2" — virgules en texte clair, caractères réservés dans les clauses encodés.
+ */
+const CONTRIBUTOR_DATA_SOURCE_IDS = [
+  "dataSource_424-19e02bd072b-layer-4",
+  "dataSource_425-19e02bd072b-layer-4",
+  "dataSource_425-19e0cee01f6-layer-4",
+  "dataSource_425-19e0cefe225-layer-5",
+  "dataSource_425-19e0cf0caa9-layer-6",
+  "dataSource_425-19e0cf1af3b-layer-7"
+];
+
+function escapeSqlLiteral(value) {
+  return value.replace(/'/g, "''");
+}
+
+function buildContributorDataFilterParam(pId) {
+  const safe = escapeSqlLiteral(pId);
+  const whereClause = "p_id='" + safe + "'";
+  const encodedWhere = encodeURIComponent(whereClause);
+  return CONTRIBUTOR_DATA_SOURCE_IDS.map(function(dsId) {
+    return dsId + ":" + encodedWhere;
+  }).join(",");
+}
+
 function showError(message) {
   document.getElementById("errorMessage").textContent = message || "";
 }
@@ -73,8 +100,8 @@ function loadContributorExperience() {
 
   showError("");
 
-  const dataFilter = "dataSource_424-19e02bd072b-layer-4:p_id='" + pId + "'";
-  const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + encodeURIComponent(dataFilter);
+  const dataFilterValue = buildContributorDataFilterParam(pId);
+  const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + dataFilterValue;
   openExperience(finalUrl, "contributor");
 }
 
