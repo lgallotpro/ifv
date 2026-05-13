@@ -59,3 +59,42 @@ export function mergeContributorDataFilterIntoUrl(href, pId) {
   result += u.hash;
   return result;
 }
+
+/**
+ * Base URL de l'expérience contributeur : tout avant /page/... (non inclus).
+ * VITE_CONTRIBUTOR_EXPERIENCE_URL peut être .../experience/&lt;id&gt; ou .../experience/&lt;id&gt;/page/&lt;Nom&gt;
+ */
+export function getContributorExperienceBaseUrl(contributorUrl) {
+  if (!contributorUrl || typeof contributorUrl !== "string") {
+    return "";
+  }
+  const trimmed = contributorUrl.trim();
+  if (!trimmed) {
+    return "";
+  }
+  const u = new URL(trimmed);
+  let path = u.pathname.replace(/\/+$/, "");
+  const pageIdx = path.indexOf("/page/");
+  if (pageIdx !== -1) {
+    path = path.slice(0, pageIdx);
+  }
+  return u.origin + path;
+}
+
+/**
+ * URL complète d'une page d'expérience : base + /page/ + slug (segments encodés pour les caractères spéciaux).
+ */
+export function buildContributorExperiencePageUrl(contributorUrl, pageSlug) {
+  const base = getContributorExperienceBaseUrl(contributorUrl);
+  if (!base) {
+    return "";
+  }
+  const slug = String(pageSlug || "").replace(/^\/+/, "");
+  if (!slug) {
+    return base;
+  }
+  const encoded = slug.split("/").map(function(part) {
+    return encodeURIComponent(part);
+  }).join("/");
+  return base + "/page/" + encoded;
+}

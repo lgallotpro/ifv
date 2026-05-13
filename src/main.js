@@ -1,4 +1,7 @@
-import { buildContributorDataFilterParam } from "./contributor-data-filter.js";
+import {
+  buildContributorDataFilterParam,
+  buildContributorExperiencePageUrl,
+} from "./contributor-data-filter.js";
 import { initExperienceNav, setExperienceNavVisible } from "./experience-nav.js";
 
 const PUBLIC_EXPERIENCE_URL = import.meta.env.VITE_PUBLIC_EXPERIENCE_URL;
@@ -87,7 +90,10 @@ function loadContributorExperience() {
   showError("");
 
   const dataFilterValue = buildContributorDataFilterParam(pId);
-  const finalUrl = CONTRIBUTOR_EXPERIENCE_URL + "?data_filter=" + dataFilterValue;
+  const pageUrl = buildContributorExperiencePageUrl(CONTRIBUTOR_EXPERIENCE_URL, "Mildiou-saison");
+  const baseForFilter = pageUrl || CONTRIBUTOR_EXPERIENCE_URL;
+  const sep = baseForFilter.indexOf("?") === -1 ? "?" : "&";
+  const finalUrl = baseForFilter + sep + "data_filter=" + dataFilterValue;
   openExperience(finalUrl, "contributor");
 }
 

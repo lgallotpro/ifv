@@ -1,17 +1,17 @@
 /**
- * Menu de navigation vers les pages de votre expérience ArcGIS (Experience Builder).
+ * Menu de navigation vers les pages de l'expérience contributeur (ArcGIS Experience Builder).
  *
- * Modifiez ce fichier pour ajouter des catégories ou des liens : aucun autre fichier n'est obligatoire.
+ * Les URLs complètes sont construites à partir de VITE_CONTRIBUTOR_EXPERIENCE_URL (racine
+ * .../experience/<id> ou .../experience/<id>/page/... — la partie /page/... est ignorée pour la base).
  *
  * Champs :
- * - id : identifiant stable (lettres/chiffres/tirets), utile pour le style ou le suivi.
- * - label : titre de la catégorie affiché dans le menu.
- * - links : liste de liens.
+ * - id : identifiant stable (lettres/chiffres/tirets).
+ * - label : titre de la catégorie.
+ * - links :
  *   - label : texte du lien.
- *   - href : URL complète de la page d'expérience (https://experience.arcgis.com/...).
- *   - applyContributorDataFilter : si true, le paramètre data_filter (toutes les couches p_id)
- *     est recalculé à partir du code organisme saisi sur la page d'accueil à chaque clic.
- *     Mettre false pour les pages grand public ou sans filtre contributeur.
+ *   - page : nom de page ExB (segment après /page/), ex. "Mildiou-saison", "Oïdium-cartographie".
+ *   - href : (optionnel) URL absolue si besoin d'exception hors expérience contributeur.
+ *   - applyContributorDataFilter : recalcul du data_filter (p_id) à partir du code organisme.
  */
 
 export const experienceNavConfig = {
@@ -20,78 +20,30 @@ export const experienceNavConfig = {
       id: "mildiou",
       label: "Mildiou",
       links: [
-        {
-          label: "Saison",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-saison",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Semaine",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-semaine",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Cartographie",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-cartographie",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Zones",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Mildiou-comparaison-Zones",
-          applyContributorDataFilter: true,
-        },
+        { label: "Saison", page: "Mildiou-saison", applyContributorDataFilter: true },
+        { label: "Semaine", page: "Mildiou-semaine", applyContributorDataFilter: true },
+        { label: "Cartographie", page: "Mildiou-cartographie", applyContributorDataFilter: true },
+        { label: "Zones", page: "Mildiou-comparaison-Zones", applyContributorDataFilter: true },
       ],
     },
     {
       id: "oidium",
       label: "Oïdium",
       links: [
-        {
-          label: "Saison",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/O%C3%AFdium-saison",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Semaine",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/O%C3%AFdium-semaine",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Cartographie",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/O%C3%AFdium-cartographie",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Zones",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/O%C3%AFdium-comparaison-Zones",
-          applyContributorDataFilter: true,
-        },
+        { label: "Saison", page: "Oïdium-saison", applyContributorDataFilter: true },
+        { label: "Semaine", page: "Oïdium-semaine", applyContributorDataFilter: true },
+        { label: "Cartographie", page: "Oïdium-cartographie", applyContributorDataFilter: true },
+        { label: "Zones", page: "Oïdium-comparaison-Zones", applyContributorDataFilter: true },
       ],
     },
     {
       id: "blackrot",
       label: "Black-rot",
       links: [
-        {
-          label: "Saison",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Black-rot-saison",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Documentation",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Black-rot-semaine",
-          applyContributorDataFilter: true,
-        }, 
-        {
-          label: "Cartographie",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Black-rot-cartographie",
-          applyContributorDataFilter: true,
-        },
-        {
-          label: "Zones",
-          href: "https://experience.arcgis.com/experience/4355ed6e5f5147c3979cd4b8315764d0/page/Black-rot-comparaison-Zones",
-          applyContributorDataFilter: true,
-        },
+        { label: "Saison", page: "Black-rot-saison", applyContributorDataFilter: true },
+        { label: "Semaine", page: "Black-rot-semaine", applyContributorDataFilter: true },
+        { label: "Cartographie", page: "Black-rot-cartographie", applyContributorDataFilter: true },
+        { label: "Zones", page: "Black-rot-comparaison-Zones", applyContributorDataFilter: true },
       ],
     },
   ],

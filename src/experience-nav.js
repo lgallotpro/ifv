@@ -1,5 +1,20 @@
 import { experienceNavConfig } from "./experience-nav.config.js";
-import { mergeContributorDataFilterIntoUrl } from "./contributor-data-filter.js";
+import {
+  mergeContributorDataFilterIntoUrl,
+  buildContributorExperiencePageUrl,
+} from "./contributor-data-filter.js";
+
+const CONTRIBUTOR_EXPERIENCE_URL = import.meta.env.VITE_CONTRIBUTOR_EXPERIENCE_URL || "";
+
+function resolveNavLinkHref(link) {
+  if (link.href) {
+    return link.href;
+  }
+  if (link.page) {
+    return buildContributorExperiencePageUrl(CONTRIBUTOR_EXPERIENCE_URL, link.page);
+  }
+  return "";
+}
 
 /**
  * @param {object} options
@@ -69,7 +84,12 @@ export function initExperienceNav(options) {
     btn.className = "nav-link-btn";
     btn.textContent = link.label;
     btn.addEventListener("click", function() {
-      navigateToLink(link.href, Boolean(link.applyContributorDataFilter));
+      const href = resolveNavLinkHref(link);
+      if (!href) {
+        showNavMessage("URL contributeur non configurée (VITE_CONTRIBUTOR_EXPERIENCE_URL).");
+        return;
+      }
+      navigateToLink(href, Boolean(link.applyContributorDataFilter));
     });
     btn.addEventListener("auxclick", function(ev) {
       if (ev.button === 1) {
