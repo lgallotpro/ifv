@@ -21,7 +21,19 @@ const CONTRIBUTOR_DATA_SOURCE_IDS = [
   "dataSource_425-19e0cee01f6-layer-4",
   "dataSource_425-19e0cefe225-layer-5",
   "dataSource_425-19e0cf0caa9-layer-6",
-  "dataSource_425-19e0cf1af3b-layer-7"
+  "dataSource_425-19e0cf1af3b-layer-7",
+  "dataSource_425-19e0cf2b67a-layer-8",
+  "dataSource_436-19e172e4a8a-layer-2",
+  "dataSource_436-19e173621df-layer-3",
+  "dataSource_436-19e17393083-layer-4",
+  "dataSource_436-19e173bf7f9-layer-5",
+  "dataSource_436-19e174227b6-layer-6",
+  "dataSource_450-19e172e4a8a-layer-2",
+  "dataSource_451-19e172e4a8a-layer-2",
+  "dataSource_451-19e173621df-layer-3",
+  "dataSource_451-19e17393083-layer-4",
+  "dataSource_451-19e173bf7f9-layer-5",
+  "dataSource_451-19e174227b6-layer-6",
 ];
 
 function escapeSqlLiteral(value) {
