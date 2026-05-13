@@ -1,3 +1,6 @@
+import { buildContributorDataFilterParam } from "./contributor-data-filter.js";
+import { initExperienceNav, setExperienceNavVisible } from "./experience-nav.js";
+
 const PUBLIC_EXPERIENCE_URL = import.meta.env.VITE_PUBLIC_EXPERIENCE_URL;
 const CONTRIBUTOR_EXPERIENCE_URL = import.meta.env.VITE_CONTRIBUTOR_EXPERIENCE_URL;
 const loginContainer = document.getElementById("login-container");
@@ -5,52 +8,20 @@ const mapContainer = document.getElementById("map-container");
 const experienceFrame = document.getElementById("experienceFrame");
 const homeButton = document.getElementById("homeButton");
 const brandTitle = document.getElementById("brandTitle");
+const topbarMessage = document.getElementById("topbarMessage");
 
 const BRAND_TITLE_HOME = "Tableau de bord Épidémosurveillance";
 const BRAND_TITLE_PUBLIC = "Tableau de bord Épidémosurveillance grand public";
 const BRAND_TITLE_CONTRIBUTOR = "Tableau de bord Épidémosurveillance contributeur";
 
-/**
- * Identifiants de sources de données à filtrer (paramètre URL data_filter).
- * @see https://doc.arcgis.com/en/experience-builder/latest/build-apps/url-parameters.htm
- * Plusieurs filtres : "ds1:clause1,ds2:clause2" — virgules en texte clair, caractères réservés dans les clauses encodés.
- */
-const CONTRIBUTOR_DATA_SOURCE_IDS = [
-  "dataSource_424-19e02bd072b-layer-4",
-  "dataSource_425-19e02bd072b-layer-4",
-  "dataSource_425-19e0cee01f6-layer-4",
-  "dataSource_425-19e0cefe225-layer-5",
-  "dataSource_425-19e0cf0caa9-layer-6",
-  "dataSource_425-19e0cf1af3b-layer-7",
-  "dataSource_425-19e0cf2b67a-layer-8",
-  "dataSource_436-19e172e4a8a-layer-2",
-  "dataSource_436-19e173621df-layer-3",
-  "dataSource_436-19e17393083-layer-4",
-  "dataSource_436-19e173bf7f9-layer-5",
-  "dataSource_436-19e174227b6-layer-6",
-  "dataSource_450-19e172e4a8a-layer-2",
-  "dataSource_451-19e172e4a8a-layer-2",
-  "dataSource_451-19e173621df-layer-3",
-  "dataSource_451-19e17393083-layer-4",
-  "dataSource_451-19e173bf7f9-layer-5",
-  "dataSource_451-19e174227b6-layer-6",
-];
-
-function escapeSqlLiteral(value) {
-  return value.replace(/'/g, "''");
-}
-
-function buildContributorDataFilterParam(pId) {
-  const safe = escapeSqlLiteral(pId);
-  const whereClause = "p_id='" + safe + "'";
-  const encodedWhere = encodeURIComponent(whereClause);
-  return CONTRIBUTOR_DATA_SOURCE_IDS.map(function(dsId) {
-    return dsId + ":" + encodedWhere;
-  }).join(",");
-}
-
 function showError(message) {
   document.getElementById("errorMessage").textContent = message || "";
+}
+
+function showTopbarMessage(message) {
+  if (topbarMessage) {
+    topbarMessage.textContent = message || "";
+  }
 }
 
 function prefillCodeFromUrl() {
@@ -78,6 +49,7 @@ function openExperience(url, mode) {
   mapContainer.style.display = "block";
   experienceFrame.src = url;
   homeButton.classList.add("visible");
+  setExperienceNavVisible(true);
   setBrandTitle(mode);
   experienceFrame.title =
     mode === "public"
@@ -89,10 +61,12 @@ function openExperience(url, mode) {
 
 function returnToHome() {
   showError("");
+  showTopbarMessage("");
   mapContainer.style.display = "none";
   loginContainer.style.display = "grid";
   experienceFrame.src = "";
   homeButton.classList.remove("visible");
+  setExperienceNavVisible(false);
   setBrandTitle("home");
   experienceFrame.title = "Tableau cartographique Épidémosurveillance";
 }
@@ -134,6 +108,14 @@ document.getElementById("pIdInput").addEventListener("keypress", function(event)
   if (event.key === "Enter") {
     loadContributorExperience();
   }
+});
+
+initExperienceNav({
+  experienceFrame: experienceFrame,
+  getContributorCode: function() {
+    return document.getElementById("pIdInput").value;
+  },
+  showNavMessage: showTopbarMessage,
 });
 
 prefillCodeFromUrl();
