@@ -193,8 +193,10 @@ export function setTopbarEmbedVisible(visible) {
 
   if (visible) {
     topbar.classList.add("topbar--embed");
+    document.body.classList.add("topbar-embed-active");
   } else {
     topbar.classList.remove("topbar--embed");
+    document.body.classList.remove("topbar-embed-active");
   }
 }
 

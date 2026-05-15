@@ -43,9 +43,9 @@
 
     .topbar {
       display: none;
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 40;
+      flex-shrink: 0;
       grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 10px 14px;
@@ -634,6 +634,17 @@
       font-weight: 600;
     }
 
+    body.topbar-embed-active {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body.topbar-embed-active #map-container {
+      flex: 1;
+      min-height: 0;
+      height: auto;
+    }
+
     #map-container {
       display: none;
       width: 100%;
@@ -670,7 +681,6 @@
     <div class="topbar-middle">
       <p id="topbarMessage" class="topbar-message" role="status" aria-live="polite"></p>
       <div class="topbar-brand-row">
-        <div class="brand" id="brandTitle">Tableau de bord Épidémosurveillance</div>
         <nav
           id="experienceNavDesktop"
           class="experience-nav-desktop"

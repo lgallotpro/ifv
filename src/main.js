@@ -14,12 +14,7 @@ const loginContainer = document.getElementById("login-container");
 const mapContainer = document.getElementById("map-container");
 const experienceFrame = document.getElementById("experienceFrame");
 const homeButton = document.getElementById("homeButton");
-const brandTitle = document.getElementById("brandTitle");
 const topbarMessage = document.getElementById("topbarMessage");
-
-const BRAND_TITLE_HOME = "Tableau de bord Épidémosurveillance";
-const BRAND_TITLE_PUBLIC = "Tableau de bord Épidémosurveillance grand public";
-const BRAND_TITLE_CONTRIBUTOR = "Tableau de bord Épidémosurveillance contributeur";
 
 function showError(message) {
   document.getElementById("errorMessage").textContent = message || "";
@@ -40,17 +35,6 @@ function prefillCodeFromUrl() {
   }
 }
 
-function setBrandTitle(mode) {
-  if (!brandTitle) return;
-  if (mode === "public") {
-    brandTitle.textContent = BRAND_TITLE_PUBLIC;
-  } else if (mode === "contributor") {
-    brandTitle.textContent = BRAND_TITLE_CONTRIBUTOR;
-  } else {
-    brandTitle.textContent = BRAND_TITLE_HOME;
-  }
-}
-
 function openExperience(url, mode) {
   loginContainer.style.display = "none";
   mapContainer.style.display = "block";
@@ -58,7 +42,6 @@ function openExperience(url, mode) {
   homeButton.classList.add("visible");
   setTopbarEmbedVisible(true);
   setExperienceNavVisible(mode === "contributor");
-  setBrandTitle(mode);
   experienceFrame.title =
     mode === "public"
       ? "Tableau de bord Épidémosurveillance grand public"
@@ -76,7 +59,6 @@ function returnToHome() {
   homeButton.classList.remove("visible");
   setTopbarEmbedVisible(false);
   setExperienceNavVisible(false);
-  setBrandTitle("home");
   experienceFrame.title = "Tableau cartographique Épidémosurveillance";
 }
 
