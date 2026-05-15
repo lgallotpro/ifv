@@ -2,7 +2,11 @@ import {
   buildContributorDataFilterParam,
   buildContributorExperiencePageUrl,
 } from "./contributor-data-filter.js";
-import { initExperienceNav, setExperienceNavVisible } from "./experience-nav.js";
+import {
+  initExperienceNav,
+  setExperienceNavVisible,
+  setTopbarEmbedVisible,
+} from "./experience-nav.js";
 
 const PUBLIC_EXPERIENCE_URL = import.meta.env.VITE_PUBLIC_EXPERIENCE_URL;
 const CONTRIBUTOR_EXPERIENCE_URL = import.meta.env.VITE_CONTRIBUTOR_EXPERIENCE_URL;
@@ -52,7 +56,8 @@ function openExperience(url, mode) {
   mapContainer.style.display = "block";
   experienceFrame.src = url;
   homeButton.classList.add("visible");
-  setExperienceNavVisible(true);
+  setTopbarEmbedVisible(true);
+  setExperienceNavVisible(mode === "contributor");
   setBrandTitle(mode);
   experienceFrame.title =
     mode === "public"
@@ -69,6 +74,7 @@ function returnToHome() {
   loginContainer.style.display = "grid";
   experienceFrame.src = "";
   homeButton.classList.remove("visible");
+  setTopbarEmbedVisible(false);
   setExperienceNavVisible(false);
   setBrandTitle("home");
   experienceFrame.title = "Tableau cartographique Épidémosurveillance";

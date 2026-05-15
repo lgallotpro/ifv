@@ -187,21 +187,29 @@ export function initExperienceNav(options) {
   });
 }
 
+export function setTopbarEmbedVisible(visible) {
+  const topbar = document.querySelector(".topbar");
+  if (!topbar) return;
+
+  if (visible) {
+    topbar.classList.add("topbar--embed");
+  } else {
+    topbar.classList.remove("topbar--embed");
+  }
+}
+
 export function setExperienceNavVisible(visible) {
   const desktopNav = document.getElementById("experienceNavDesktop");
   const burger = document.getElementById("navBurger");
   const drawer = document.getElementById("navDrawer");
-  const topbar = document.querySelector(".topbar");
-  if (!desktopNav || !burger || !topbar) return;
+  if (!desktopNav || !burger) return;
 
   if (visible) {
     desktopNav.hidden = false;
     burger.hidden = false;
-    topbar.classList.add("topbar--embed");
   } else {
     desktopNav.hidden = true;
     burger.hidden = true;
-    topbar.classList.remove("topbar--embed");
     if (drawer) {
       drawer.classList.remove("nav-drawer--open");
       drawer.setAttribute("aria-hidden", "true");
