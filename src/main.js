@@ -15,6 +15,7 @@ const mapContainer = document.getElementById("map-container");
 const experienceFrame = document.getElementById("experienceFrame");
 const homeButton = document.getElementById("homeButton");
 const topbarMessage = document.getElementById("topbarMessage");
+const FOOTER_EMAIL = "leogallotpro@gmail.com";
 
 function showError(message) {
   document.getElementById("errorMessage").textContent = message || "";
@@ -24,6 +25,42 @@ function showTopbarMessage(message) {
   if (topbarMessage) {
     topbarMessage.textContent = message || "";
   }
+}
+
+function openMailClient(email) {
+  const mailtoUrl = "mailto:" + email;
+  window.location.href = mailtoUrl;
+}
+
+function showFooterEmailFeedback(message) {
+  const feedback = document.getElementById("footerEmailFeedback");
+  if (!feedback) return;
+  feedback.textContent = message;
+  feedback.hidden = false;
+  window.setTimeout(function() {
+    feedback.hidden = true;
+    feedback.textContent = "";
+  }, 2800);
+}
+
+function initFooterEmailLink() {
+  const link = document.getElementById("footerEmailLink");
+  if (!link) return;
+
+  link.addEventListener("click", function(event) {
+    event.preventDefault();
+    openMailClient(FOOTER_EMAIL);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(FOOTER_EMAIL).then(function() {
+        showFooterEmailFeedback("— adresse copiée");
+      }).catch(function() {
+        showFooterEmailFeedback("— " + FOOTER_EMAIL);
+      });
+    } else {
+      showFooterEmailFeedback("— " + FOOTER_EMAIL);
+    }
+  });
 }
 
 function prefillCodeFromUrl() {
@@ -112,4 +149,5 @@ initExperienceNav({
   showNavMessage: showTopbarMessage,
 });
 
+initFooterEmailLink();
 prefillCodeFromUrl();

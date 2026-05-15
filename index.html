@@ -469,6 +469,15 @@
       text-decoration-color: rgba(90, 102, 87, 0.45);
       text-underline-offset: 2px;
       border-bottom: none;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .site-footer__email-feedback {
+      margin-left: 4px;
+      font-size: 0.65rem;
+      color: var(--brand-dark);
     }
 
     .site-footer__text--credit a:hover {
@@ -785,7 +794,12 @@
       <p class="site-footer__text site-footer__text--copyright">© IFV</p>
       <p class="site-footer__text site-footer__text--credit">
         Conçu par
-        <a href="mailto:leogallotpro@gmail.com">Léo</a>
+        <a
+          href="mailto:leogallotpro@gmail.com"
+          id="footerEmailLink"
+          title="Envoyer un e-mail à leogallotpro@gmail.com"
+        >Léo</a>
+        <span id="footerEmailFeedback" class="site-footer__email-feedback" role="status" aria-live="polite" hidden></span>
       </p>
     </footer>
   </main>
